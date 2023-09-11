@@ -41,4 +41,8 @@ object Chapter1Spec extends Properties("Chapter1") {
     property("concat") = forAll(Gen.containerOf[List, List[Int]](Gen.containerOf[List, Int](arbitrary[Int]))) { xss =>
         Chapter1.concat(xss) == xss.flatten
     }
+
+    property("steep") = forAll { (l: List[Int]) =>
+        Chapter1.simpleSteep(l) == Chapter1.fastSteep(l)
+    }
 }
