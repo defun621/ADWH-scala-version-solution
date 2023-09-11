@@ -22,4 +22,23 @@ object Chapter1Spec extends Properties("Chapter1") {
         val result = Chapter1.fraction(l)
         result == target.toDouble
     }
+
+    property("inserts") = forAll { (l: List[Int]) =>
+        def inserts(x: Int, xs: List[Int]): List[List[Int]] = xs match 
+            case Nil => List(List(x))
+            case y :: ys => (x :: y :: ys) :: inserts(x, ys).map(y :: _)
+        end inserts
+
+        def sig(l: List[List[Int]]): String = 
+            l.map(_.mkString).sorted.mkString
+
+        sig(Chapter1.inserts(0, l)) == sig(inserts(0, l))
+    }
+
+    import Gen._
+    import Arbitrary.arbitrary
+
+    property("concat") = forAll(Gen.containerOf[List, List[Int]](Gen.containerOf[List, Int](arbitrary[Int]))) { xss =>
+        Chapter1.concat(xss) == xss.flatten
+    }
 }

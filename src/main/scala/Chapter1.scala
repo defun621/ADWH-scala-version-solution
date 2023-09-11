@@ -64,4 +64,36 @@ object Chapter1:
         case 0 => a
         case _ => apply(x - 1)(f)(f(a))
 
+    /*
+    inserts :: a -> [a] -> [[a]]
+    inserts x [] = [[x]]
+    inserts x (y:ys) = (x:y:ys): map (y:) (inserts x ys)
+    */
+    def inserts[A](x: A, l: List[A]): List[List[A]] = 
+        val step = (a: A, acc: List[List[A]]) => 
+            val ys = acc.head.tail
+            val head = x :: a :: ys
+            val tail = acc.map(a :: _)
+            head :: tail
+        end step
+        l.foldRight(List(List(x)))(step)
+
+    
+    /*
+    perms3 [] = [[]]
+    perms3 xs = [x : ys | x <- xs, ys <- perms3(remove x xs)]
+    in haskell, the remove should have the signature of Eq a => a -> [a] -> [a].
+    therefore, one cannot generate the permutation of a list of functions using perms3
+    since there is no way to define the instance of Eq of function
+    */
+    def remove[A](x: A, xs: List[A]) = 
+        val p: A => Boolean = i => i != x
+        filter(p)(LazyList.from(xs))
+
+    def concat[A](xss: List[List[A]]): List[A] = 
+        type LF = List[A] => List[A]
+        val step: (LF, List[A]) => LF  = (acc: LF, a: List[A]) => l => acc(a ++ l)
+        xss.foldLeft(identity[List[A]])(step).apply(List[A]())
+    end concat
+
 end Chapter1
