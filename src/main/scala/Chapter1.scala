@@ -105,7 +105,7 @@ object Chapter1:
         type Flag = Boolean
         type Info = (Sum, Flag)
         val step: (Int, Info) => Info = (x, info) => (x + info._1, info._2 && x > info._1)
-        val finalInfo = l.foldRight((0, true): Info)(step)
+        val finalInfo = l.foldRight((0, true))(step)
         finalInfo._2
 
 end Chapter1
