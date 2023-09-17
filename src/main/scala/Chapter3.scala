@@ -64,5 +64,14 @@ object Chapter3:
         case _ if f(headSL(sl)) => dropWhileSL(f)(tailSL(sl))
         case _ => sl
     
+    /*
+    inits . fromSL = map fromSL . fromSL . initsSL
+    */
+    val initsSL: [A] => SymList[A] => (SymList[SymList[A]]) = [A] => (sl: SymList[A]) => 
+        if nullSL(sl) then
+            snocSL(sl)(nilSL)
+        else
+            snocSL(sl)(initsSL(initSL(sl)))
+
     
 end Chapter3 
