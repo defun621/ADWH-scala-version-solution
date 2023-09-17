@@ -76,4 +76,23 @@ object Chapter3:
     /*
     inits = map reverse . scanl (flip :) []
     */
+
+    enum Tree[+A]:
+        case Leaf(a: A) 
+        case Node(size: Int, left: Tree[A], right: Tree[A])
+    
+    val size: [A] => Tree[A] => Int = [A] => (t: Tree[A]) => t match
+        case Tree.Leaf(a) => 1
+        case Tree.Node(size, left, right) => size
+    
+    val node: [A] => Tree[A] => Tree[A] => Tree[A] = [A] => (l: Tree[A]) => (r: Tree[A]) => new Tree.Node(size(l) + size(r), l, r)
+
+    enum Digit[+A]:
+        case One(t: Tree[A])
+        case Zero
+
+    type RAList[A] = List[Digit[A]]
+
+    val fromRA: [A] => RAList[A] => List[A] = [A] => (ra: RAList[A]) => ???
+    
 end Chapter3 
