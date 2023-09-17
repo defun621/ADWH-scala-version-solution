@@ -73,5 +73,7 @@ object Chapter3:
         else
             snocSL(sl)(initsSL(initSL(sl)))
 
-    
+    /*
+    inits = map reverse . scanl (flip :) []
+    */
 end Chapter3 
